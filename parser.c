@@ -1,4 +1,4 @@
-/**
+/*
  * parser.c - recursive descent parser for a simple expression language.
  * Most of the functions in this file model a non-terminal in the
  * grammar listed below
@@ -13,7 +13,7 @@
 #include "tokenizer.h"
 #include "parser.h"
 
-/**
+/*
  * <bexpr> ::= <expr> ;
  * <expr> ::=  <term> <ttail>
  * <ttail> ::=  <add_sub_tok> <term> <ttail> | e
@@ -87,5 +87,50 @@ int ttail(char *token, int subtotal)
    else
       return subtotal;
 }
+/**
+ * <term> ::=  <stmt> <stail>
+ * The function for the non-terminal <term> that views
+ * the expression as a series of terms and multiplication and
+ * division operators.
+ * @param token: the line being read
+ * @return: the number of the evaluated expression or an error
+ */
+int term(char * token){
+   int subtotal = stmt(token);
+    if (subtotal == ERROR)
+      return subtotal;
+   else
+      return stail(token, subtotal);
+}
 
+/**
+ * <stmt> ::=  <factor> <ftail>
+ * The function for the non-terminal <term> that views
+ * the expression as a series of terms and multiplication and
+ * division operators.
+ * @param token: the line being read
+ * @return: the number of the evaluated expression or an error
+ */
+int stmt(char *token)
+{
+   int subtotal = factor(token);
+   if (subtotal == ERROR)
+      return subtotal;
+   else
+      return ftail(token, subtotal);
+}
+/**
+ * <stail> ::=  <stmt> <stail> | e
+ * The function for the non-terminal <ttail> that is the
+ * the rest of an arithmetic expression after the initial
+ * term. So it expects an addition or subtraction operator
+ * first or the empty string. 
+ * @param token: the line being read
+ * @param subtotal: the number we have evaluated up to this
+ *                  point
+ * @return: the number of the evaluated expression or an error
+ */
+int ttail(char* token, int subtotal){
+
+}
 
