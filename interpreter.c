@@ -9,8 +9,8 @@
 char* line;
 
 int main(int argc, char* argv[]){
-    FILE* in_file = null;
-    FILE* out_file = null;
+    FILE* in_file = NULL;
+    FILE* out_file = NULL;
     char  token[TSIZE];
     char  input_line[LINE];
     char* final;
