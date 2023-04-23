@@ -12,8 +12,7 @@
 #include <math.h>
 #include "tokenizer.h"
 #include "parser.h"
-
-extern char* line;
+#include <math.h>
 
 /**
  * <bexpr> ::= <expr> ;
@@ -141,7 +140,24 @@ int stail(char* token, int subtotal){
 }
 
 int factor(char* token){
+    int subtotal, term_value, term_value2; // 3 ^ 2
 
+    term_value = expp(token); //ex: 3
+
+    if (!strncmp(token, "^", 1)){
+        get_token(token);
+        term_value2 = factor(token);
+
+        if(term_value == ERROR || term_value2 == ERROR){
+            return ERROR;
+        }
+        else{
+            subtotal = pow(term_value, term_value2);
+        }
+    }
+    else{
+        return term_value;
+    }
 }
 
 int ftail(char* token, int subtotal){
@@ -213,6 +229,9 @@ int ftail(char* token, int subtotal){
         else
             return ftail(token, (subtotal - term_value));
     }
+    else {
+        return subtotal;
+    }
 }
 
 int expp(char* token){
@@ -234,7 +253,7 @@ int expp(char* token){
     }
         /* empty string */
     else {
-        return subtotal;
+        return num(token);
     }
 }
 
@@ -256,7 +275,7 @@ void expon_tok(char* token){
 
 int num(char* token){
     if(is_number(token) == TRUE){
-        get_token(token);
+        return atio(token);
     }
     else{
         return ERROR;
@@ -265,10 +284,12 @@ int num(char* token){
 }
 
 int is_number(char* token){
+    int term_value = 0;
     if(isdigit(token)){
-        return atoi(token);
+        term_value = 1;
+        return term_value;
     }
     else{
-        return ERROR;
+        return term_value;
     }
 }
