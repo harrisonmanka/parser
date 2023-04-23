@@ -13,7 +13,7 @@ int main(int argc, char* argv[]){
     FILE* out_file = NULL;
     char  token[TSIZE];
     char  input_line[LINE];
-    char* final;
+    
 
     in_file = fopen(argv[1], "r");
     if (in_file == NULL) {
@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
     while (fgets(input_line, LINE, in_file) != NULL){
         line = input_line;
         get_token(token);
-        final = bexpr(token);
+        bexpr(token);
         fprintf(out_file, line);
     }
 

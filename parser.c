@@ -275,7 +275,7 @@ void expon_tok(char* token){
 
 int num(char* token){
     if(is_number(token) == TRUE){
-        return atio(token);
+        return atoi(token);
     }
     else{
         return ERROR;
