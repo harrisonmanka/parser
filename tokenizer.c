@@ -109,14 +109,11 @@ void get_token(char *token_ptr){
             i++; j++;
         }
     }
-    else if ((line[j] == '<') || (line[j] == '>') || (line[j] == '=') || (line[j] == '!')){
+    else if (((line[j] == '<')&&(line[j+1] == '=')) || ((line[j] == '>')&&(line[j+1] == '='))
+            || ((line[j] == '!')&&(line[j+1] == '=')) || ((line[j] == '=')&&(line[j+1] == '='))) {
         token_ptr[i] = line[j];
+        token_ptr[i+1] = line[j+1];
         j++;
-        i++;
-        if(line[j] == '='){
-            token_ptr[i] = line[j];
-            j++;
-        }
     }
     else if ((line[j] == '*') || (line[j] == ';') || (line[j] == '(') ||
              (line[j] == ')') || (line[j] == '+') || (line[j] == '-') ||
