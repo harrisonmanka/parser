@@ -113,27 +113,27 @@ int stmt(char* token){
 int stail(char* token, int subtotal){
     int term_value;
 
-    if (!strncmp(token, "+", 1))
+    if (!strncmp(token, "*", 1))
     {
-        mul_div_tok(token);
+        subtotal = mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
         if (term_value == ERROR)
             return term_value;
         else
-            return stail(token, (subtotal + term_value));
+            return stail(token, (subtotal * term_value));
     }
-    else if(!strncmp(token, "-", 1))
+    else if(!strncmp(token, "/", 1))
     {
-        mul_div_tok(token);
+        subtotal = mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
         if (term_value == ERROR)
             return term_value;
         else
-            return stail(token, (subtotal - term_value));
+            return stail(token, (subtotal / term_value));
     }
         /* empty string */
     else
