@@ -4,8 +4,8 @@
  * NOTE: The terms 'token' and 'lexeme' are used interchangeably in this
  *       program.
  *
- * @author Your Name
- * @version current date
+ * @author Harrison Manka
+ * @date 4/21/2023
  */
 
 #include <stdio.h>

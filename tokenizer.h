@@ -1,8 +1,9 @@
 /**
  * Header file for the tokenizer project
  * @author Harrison Manka & Matthew Agudelo
- * @version 03/16/23
+ * @date 4/21/2023
  */
+
 /* Constants */
 #define LINE 100
 #define TSIZE 20
