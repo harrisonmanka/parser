@@ -18,7 +18,7 @@
 char *line;             // Global pointer to line of input
 // (optional) can declare some additional variable if you want to
 char *token_type = "";
-char *grammar = "";
+//char *grammar = "";
 int j;
 /**
 * add comment
@@ -150,70 +150,70 @@ void print_to_file(FILE* out_file, char* token_arr, int count){
 void get_token_type(char* token){
     if(strcmp(token, ADD_OP) == 0) {
         token_type = "ADD_OP";
-        grammar = "an";
+        //grammar = "an";
     }
     else if (strcmp(token, SUB_OP) == 0) {
         token_type = "SUB_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, MULT_OP) == 0) {
         token_type = "MULT_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, DIV_OP) == 0) {
         token_type = "DIV_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, LEFT_PAREN) == 0) {
         token_type = "LEFT_PAREN";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, RIGHT_PAREN) == 0){
         token_type = "RIGHT_PAREN";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, EXPON_OP) == 0) {
         token_type = "EXPON_OP";
-        grammar = "an";
+        //grammar = "an";
     }
     else if (strcmp(token, ASSIGN_OP) == 0) {
         token_type = "ASSIGN_OP";
-        grammar = "an";
+        //grammar = "an";
     }
     else if (strcmp(token, LESS_THEN_OP) == 0) {
         token_type = "LESS_THEN_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, LESS_THEN_OR_EQUAL_OP) == 0) {
         token_type = "LESS_THEN_OR_EQUAL_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, GREATER_THEN_OP) == 0) {
         token_type = "GREATER_THEN_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, GREATER_THEN_OR_EQUAL_OP) == 0) {
         token_type = "GREATER_THEN_OR_EQUAL_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, EQUALS_OP) == 0) {
         token_type = "EQUALS_OP";
-        grammar = "an";
+        //grammar = "an";
     }
     else if (strcmp(token, NOT_OP) == 0) {
         token_type = "NOT_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, NOT_EQUAL_OP) == 0) {
         token_type = "NOT_EQUAL_OP";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (strcmp(token, SEMI_COLON) == 0) {
         token_type = "SEMI_COLON";
-        grammar = "a";
+        //grammar = "a";
     }
     else if (isdigit(token[0])){
-        token_type = "INT_LITERAL"; grammar = "an";
+        token_type = "INT_LITERAL"; //grammar = "an";
     }
     else {
         token_type = "ERROR";

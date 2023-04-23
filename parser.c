@@ -13,6 +13,8 @@
 #include "tokenizer.h"
 #include "parser.h"
 
+extern char* line;
+
 /**
  * <bexpr> ::= <expr> ;
  * <expr> ::=  <term> <ttail>
@@ -28,6 +30,10 @@
  * <compare_tok> ::=  < | > | <= | >= | != | ==
  * <num> ::=  {0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9}+
  */
+
+int bexpr(char* token){
+    expr(token);
+}
 
 /**
  * <expr> -> <term> <ttail>
@@ -88,4 +94,110 @@ int ttail(char *token, int subtotal)
       return subtotal;
 }
 
+int term(char* token){
+    int subtotal = factor(token);
+    if (subtotal == ERROR)
+        return subtotal;
+    else
+        return stail(token, subtotal);
+}
 
+int stmt(char* token){
+    int subtotal = factor(token);
+    if (subtotal == ERROR)
+        return subtotal;
+    else
+        return ftail(token, subtotal);
+}
+
+int stail(char* token, int subtotal){
+    int term_value;
+
+    if (!strncmp(token, "+", 1))
+    {
+        mul_div_tok(token);
+        term_value = stmt(token);
+
+        // if term returned an error, give up otherwise call ttail
+        if (term_value == ERROR)
+            return term_value;
+        else
+            return stail(token, (subtotal + term_value));
+    }
+    else if(!strncmp(token, "-", 1))
+    {
+        mul_div_tok(token);
+        term_value = stmt(token);
+
+        // if term returned an error, give up otherwise call ttail
+        if (term_value == ERROR)
+            return term_value;
+        else
+            return stail(token, (subtotal - term_value));
+    }
+        /* empty string */
+    else
+        return subtotal;
+}
+
+int factor(char* token){
+    int term_value;
+
+    if (!strncmp(token, "(", 1))
+    {
+        mul_div_tok(token);
+        term_value = stmt(token);
+
+        // if term returned an error, give up otherwise call ttail
+        if (term_value == ERROR)
+            return term_value;
+        else
+            return stail(token, (subtotal + term_value));
+    }
+    else if(!strncmp(token, ")", 1))
+    {
+        mul_div_tok(token);
+        term_value = stmt(token);
+
+        // if term returned an error, give up otherwise call ttail
+        if (term_value == ERROR)
+            return term_value;
+        else
+            return stail(token, (subtotal - term_value));
+    }
+        /* empty string */
+    else
+        return subtotal;
+}
+
+int ftail(char* token, int subtotal){
+
+}
+
+int expp(char* token){
+
+}
+
+void add_sub_tok(char* token){
+    get_token(token);
+}
+
+void mul_div_tok(char* token){
+    get_token(token);
+}
+
+void compare_tok(char* token){
+    get_token(token);
+}
+
+void expon_tok(char* token){
+    get_token(token);
+}
+
+int num(char* token){
+
+}
+
+int is_number(char* token){
+
+}
