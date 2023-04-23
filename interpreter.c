@@ -31,5 +31,7 @@ int main(int argc, char* argv[]){
         line = input_line;
         get_token(token);
         final = bexpr(token);
+        fprintf(out_file, line);
     }
+
 }
