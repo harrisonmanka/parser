@@ -115,7 +115,7 @@ int stail(char* token, int subtotal){
 
     if (!strncmp(token, "*", 1))
     {
-        subtotal = mul_div_tok(token);
+        int subtotal = mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
@@ -220,7 +220,7 @@ int expp(char* token){
 
     if (!strncmp(token, "(", 1))
     {
-        get_token(token)
+        get_token(token);
         term_value = expr(token);
 
         // if term returned an error, give up otherwise call ttail
@@ -265,5 +265,10 @@ int num(char* token){
 }
 
 int is_number(char* token){
-    if(isdigit())
+    if(isdigit(token)){
+        return atoi(token);
+    }
+    else{
+        return ERROR;
+    }
 }
