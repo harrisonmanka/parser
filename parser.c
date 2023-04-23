@@ -12,7 +12,6 @@
 #include <math.h>
 #include "tokenizer.h"
 #include "parser.h"
-#include "interpreter.h"
 #include <math.h>
 #include <ctype.h>
 
@@ -38,7 +37,7 @@ int bexpr(char* token){
         return subtotal;
     }
     else {
-        if((!strncmp(token, ";", 1)){
+        if((!strncmp(token, ";", 1))){
             get_token(token);
             return subtotal;
         }
@@ -80,31 +79,34 @@ int ttail(char *token, int subtotal)
 {
    int term_value;
 
-   if (!strncmp(token, "+", 1))
-   {
+   if (!strncmp(token, "+", 1)){
       add_sub_tok(token);
       term_value = term(token);
 
       // if term returned an error, give up otherwise call ttail
-      if (term_value == ERROR)
-         return term_value;
-      else
-         return ttail(token, (subtotal + term_value));
+      if (term_value == L_ERROR) {
+          return term_value;
+      }
+      else {
+          return ttail(token, (subtotal + term_value));
+      }
    }
-   else if(!strncmp(token, "-", 1))
-   {
+   else if(!strncmp(token, "-", 1)){
       add_sub_tok(token);
       term_value = term(token);
 
       // if term returned an error, give up otherwise call ttail
-      if (term_value == ERROR)
-         return term_value;
-      else
-         return ttail(token, (subtotal - term_value));
+      if (term_value == L_ERROR) {
+          return term_value;
+      }
+      else {
+          return ttail(token, (subtotal - term_value));
+      }
    }
    /* empty string */
-   else
-      return subtotal;
+   else{
+       return subtotal;
+   }
 }
 
 int term(char* token){
@@ -126,31 +128,32 @@ int stmt(char* token){
 int stail(char* token, int subtotal){
     int term_value;
 
-    if (!strncmp(token, "*", 1))
-    {
+    if (!strncmp(token, "*", 1)){
         mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == L_ERROR)
             return term_value;
         else
             return stail(token, (subtotal * term_value));
     }
-    else if(!strncmp(token, "/", 1))
-    {
+    else if(!strncmp(token, "/", 1)){
         mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == L_ERROR) {
             return term_value;
-        else
+        }
+        else {
             return stail(token, (subtotal / term_value));
+        }
     }
         /* empty string */
-    else
+    else {
         return subtotal;
+    }
 }
 
 int factor(char* token){
@@ -162,7 +165,7 @@ int factor(char* token){
         get_token(token);
         term_value2 = factor(token);
 
-        if(term_value == L_ERROR || term_value2 == L_ ERROR ||
+        if(term_value == L_ERROR || term_value2 == L_ERROR ||
             term_value2 == S_ERROR || term_value2 == S_ERROR){
             return term_value;
         }
@@ -207,7 +210,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR || term_value == S_ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal + term_value));
@@ -218,7 +221,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR || term_value == S_ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal - term_value));
@@ -229,7 +232,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR || term_value == S_ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal + term_value));
@@ -240,7 +243,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR || term_value == S_ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal - term_value));
@@ -253,21 +256,17 @@ int ftail(char* token, int subtotal){
 int expp(char* token){
     int term_value;
 
-    if (!strncmp(token, "(", 1))
-    {
+    if (!strncmp(token, "(", 1)){
         get_token(token);
         term_value = expr(token);
 
         // if term returned an error, give up otherwise call ttail
         if (!strncmp(token, ")", 1)) {
-            return term_value;
-        }
-        else if(!strncmp(token, ")", 0)) {
-            return ERROR;
-        }
-        else {
             get_token(token);
             return term_value;
+        }
+        else {
+            return S_ERROR;
         }
     }
         /* empty string */
@@ -297,7 +296,7 @@ int num(char* token){
         return atoi(token);
     }
     else{
-        return ERROR;
+        return S_ERROR;
     }
 
 }
