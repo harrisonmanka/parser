@@ -114,7 +114,7 @@ int stail(char* token, int subtotal){
 
     if (!strncmp(token, "*", 1))
     {
-
+        mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
@@ -125,6 +125,7 @@ int stail(char* token, int subtotal){
     }
     else if(!strncmp(token, "/", 1))
     {
+        mul_div_tok(token);
         term_value = stmt(token);
 
         // if term returned an error, give up otherwise call ttail
