@@ -1,11 +1,13 @@
 #ifndef PARSER_H
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define PARSER_H
-#define ERROR -999999
-/*
- * Author:  William Kreahling and Mark Holliday
- * Purpose: Function Prototypes for parser.c
- * Date:    Modified 9-26-08, 3-25-15
- */
+#define L_ERROR -999999
+#define S_ERROR 999999
+
 int bexpr(char *);	// bexpr is short for boolean_expression
 int expr(char *);     // expr is short for expression
 int term(char *);

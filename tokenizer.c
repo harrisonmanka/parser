@@ -15,80 +15,81 @@
 #include "tokenizer.h"
 
 // global variables
-char *line;             // Global pointer to line of input
+//char *line;             // Global pointer to line of input
 // (optional) can declare some additional variable if you want to
 char *token_type = "";
 //char *grammar = "";
 int j;
+extern char* line;
 /**
 * add comment
 */
-int main(int argc, char* argv[]) {
-    char  token[TSIZE];      /* Spot to hold a token, fixed size */
-    char  input_line[LINE];  /* Line of input, fixed size        */
-    FILE  *in_file = NULL;        /* File pointer                     */
-    FILE  *out_file = NULL;
-    int   line_count = 0;        /* Number of lines read             */
-    //start,    /* is this the start of a new statement? */
-    int count = 0;             /* count of tokens                  */
-
-    if (argc != 3) {
-        printf("Usage: tokenizer inputFile outputFile\n");
-        exit(1);
-    }
-
-    in_file = fopen(argv[1], "r");
-    if (in_file == NULL) {
-        fprintf(stderr, "ERROR: could not open %s for reading\n", argv[1]);
-        exit(1);
-    }
-
-    out_file = fopen(argv[2], "w");
-    if (out_file == NULL) {
-        fprintf(stderr, "ERROR: could not open %s for writing\n", argv[2]);
-        exit(1);
-    }
-    while (fgets(input_line, LINE, in_file) != NULL)
-    {
-        line = input_line;
-        if(line_count == 0){
-            line_count++;
-            fprintf(out_file, "Statement #" "%d \n", line_count);
-            line_count++;
-        }
-        while(line[j] != '\0'){
-            get_token(token);
-            get_token_type(token);
-            //print_to_file(out_file, token, count);
-            count++; //lexeme count
-            memset(token, 0, sizeof(token));
-            if(line[j] == '\n'){
-                fprintf(out_file,"%s", "-----------------------------------------------\n");
-                fprintf(out_file, "Statement #" "%d \n", line_count);
-                count = 0;
-                line_count++;
-                line++;
-            }
-            else if(line[j] == '\t'){
-                j++;
-            }
-            else if(line[j] == ';'){
-                get_token(token);
-                token_type = "SEMI_COLON";
-                //print_to_file(out_file, token, count);
-                fprintf(out_file,"%s", "-----------------------------------------------\n");
-                fprintf(out_file, "Statement #" "%d \n", line_count);
-                line_count++; //statement number
-                count = 0; //token #
-                memset(token, 0, sizeof(token));
-            }
-        }
-        j = 0;
-    }
-    fclose(in_file);
-    fclose(out_file);
-    return 0;
-}
+//int main(int argc, char* argv[]) {
+//    char  token[TSIZE];      /* Spot to hold a token, fixed size */
+//    char  input_line[LINE];  /* Line of input, fixed size        */
+//    FILE  *in_file = NULL;        /* File pointer                     */
+//    FILE  *out_file = NULL;
+//    int   line_count = 0;        /* Number of lines read             */
+//    //start,    /* is this the start of a new statement? */
+//    int count = 0;             /* count of tokens                  */
+//
+//    if (argc != 3) {
+//        printf("Usage: tokenizer inputFile outputFile\n");
+//        exit(1);
+//    }
+//
+//    in_file = fopen(argv[1], "r");
+//    if (in_file == NULL) {
+//        fprintf(stderr, "ERROR: could not open %s for reading\n", argv[1]);
+//        exit(1);
+//    }
+//
+//    out_file = fopen(argv[2], "w");
+//    if (out_file == NULL) {
+//        fprintf(stderr, "ERROR: could not open %s for writing\n", argv[2]);
+//        exit(1);
+//    }
+//    while (fgets(input_line, LINE, in_file) != NULL)
+//    {
+//        line = input_line;
+//        if(line_count == 0){
+//            line_count++;
+//            fprintf(out_file, "Statement #" "%d \n", line_count);
+//            line_count++;
+//        }
+//        while(line[j] != '\0'){
+//            get_token(token);
+//            get_token_type(token);
+//            //print_to_file(out_file, token, count);
+//            count++; //lexeme count
+//            memset(token, 0, sizeof(token));
+//            if(line[j] == '\n'){
+//                fprintf(out_file,"%s", "-----------------------------------------------\n");
+//                fprintf(out_file, "Statement #" "%d \n", line_count);
+//                count = 0;
+//                line_count++;
+//                line++;
+//            }
+//            else if(line[j] == '\t'){
+//                j++;
+//            }
+//            else if(line[j] == ';'){
+//                get_token(token);
+//                token_type = "SEMI_COLON";
+//                //print_to_file(out_file, token, count);
+//                fprintf(out_file,"%s", "-----------------------------------------------\n");
+//                fprintf(out_file, "Statement #" "%d \n", line_count);
+//                line_count++; //statement number
+//                count = 0; //token #
+//                memset(token, 0, sizeof(token));
+//            }
+//        }
+//        j = 0;
+//    }
+//    fclose(in_file);
+//    fclose(out_file);
+//    return 0;
+//}
 
 /**
 * grab token

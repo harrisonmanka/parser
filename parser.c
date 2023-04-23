@@ -12,7 +12,9 @@
 #include <math.h>
 #include "tokenizer.h"
 #include "parser.h"
+#include "interpreter.h"
 #include <math.h>
+#include <ctype.h>
 
 /**
  * <bexpr> ::= <expr> ;
@@ -31,7 +33,19 @@
  */
 
 int bexpr(char* token){
-    expr(token);
+    int subtotal = expr(token);
+    if(subtotal == L_ERROR){
+        return subtotal;
+    }
+    else {
+        if((!strncmp(token, ";", 1)){
+            get_token(token);
+            return subtotal;
+        }
+        else {
+            return S_ERROR;
+        }
+    }
 }
 
 /**
@@ -45,7 +59,7 @@ int bexpr(char* token){
 int expr(char *token)
 {
    int subtotal = term(token);
-   if (subtotal == ERROR)
+   if (subtotal == L_ERROR)
       return subtotal;
    else
       return ttail(token, subtotal);
@@ -95,7 +109,7 @@ int ttail(char *token, int subtotal)
 
 int term(char* token){
     int subtotal = factor(token);
-    if (subtotal == ERROR)
+    if (subtotal == L_ERROR)
         return subtotal;
     else
         return stail(token, subtotal);
@@ -103,7 +117,7 @@ int term(char* token){
 
 int stmt(char* token){
     int subtotal = factor(token);
-    if (subtotal == ERROR)
+    if (subtotal == L_ERROR)
         return subtotal;
     else
         return ftail(token, subtotal);
@@ -140,19 +154,21 @@ int stail(char* token, int subtotal){
 }
 
 int factor(char* token){
-    int subtotal, term_value, term_value2; // 3 ^ 2
+    int subtotal, term_value, term_value2;
 
-    term_value = expp(token); //ex: 3
+    term_value = expp(token);
 
     if (!strncmp(token, "^", 1)){
         get_token(token);
         term_value2 = factor(token);
 
-        if(term_value == ERROR || term_value2 == ERROR){
-            return ERROR;
+        if(term_value == L_ERROR || term_value2 == L_ ERROR ||
+            term_value2 == S_ERROR || term_value2 == S_ERROR){
+            return term_value;
         }
         else{
             subtotal = pow(term_value, term_value2);
+            return subtotal;
         }
     }
     else{
@@ -169,7 +185,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal + term_value));
@@ -180,7 +196,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal - term_value));
@@ -191,7 +207,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal + term_value));
@@ -202,7 +218,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal - term_value));
@@ -213,7 +229,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal + term_value));
@@ -224,7 +240,7 @@ int ftail(char* token, int subtotal){
         term_value = factor(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (term_value == ERROR)
+        if (term_value == ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal - term_value));
@@ -243,13 +259,16 @@ int expp(char* token){
         term_value = expr(token);
 
         // if term returned an error, give up otherwise call ttail
-        if (!strncmp(term_value, ")", 1))
-            return term_value;
-        else if (term_value == ERROR) {
+        if (!strncmp(token, ")", 1)) {
             return term_value;
         }
-        else
-            return num(token);
+        else if(!strncmp(token, ")", 0)) {
+            return ERROR;
+        }
+        else {
+            get_token(token);
+            return term_value;
+        }
     }
         /* empty string */
     else {
@@ -275,7 +294,7 @@ void expon_tok(char* token){
 
 int num(char* token){
     if(is_number(token) == TRUE){
-        return atio(token);
+        return atoi(token);
     }
     else{
         return ERROR;
@@ -284,12 +303,6 @@ int num(char* token){
 }
 
 int is_number(char* token){
-    int term_value = 0;
-    if(isdigit(token)){
-        term_value = 1;
-        return term_value;
-    }
-    else{
-        return term_value;
-    }
+    int temp = atoi(token);
+    return isdigit(temp);
 }
