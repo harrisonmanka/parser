@@ -1,5 +1,6 @@
 #ifndef PARSER_H
-   #define PARSER_H
+#define PARSER_H
+#define ERROR -999999
 /*
  * Author:  William Kreahling and Mark Holliday
  * Purpose: Function Prototypes for parser.c
