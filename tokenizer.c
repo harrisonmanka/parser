@@ -13,14 +13,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "tokenizer.h"
+#include "interpreter.h"
 
 // global variables
 //char *line;             // Global pointer to line of input
 // (optional) can declare some additional variable if you want to
 char *token_type = "";
 //char *grammar = "";
-int j;
 extern char* line;
+int j;
 /**
 * add comment
 */

@@ -12,8 +12,12 @@
 #include <math.h>
 #include "tokenizer.h"
 #include "parser.h"
+#include "interpreter.h"
 #include <math.h>
 #include <ctype.h>
+
+extern char* line;
+extern int j;
 
 /**
  * <bexpr> ::= <expr> ;
