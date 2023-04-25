@@ -14,7 +14,7 @@
 * Function prototypes
 */
 char* get_token(char *);  
-void print_lex(char *); 
+void print_to_file(char *); 
 char *id_Expr(char *);
 
 

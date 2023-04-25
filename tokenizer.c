@@ -147,7 +147,7 @@ char* get_token(char *token_ptr){
 *This function takes a char array of lexemes and prints them out
 *and also increases the token counter
  */
-void print_lex(char *lex){
+void print_to_file(char *lex){
   char* id;
   id = id_Expr(lex);
   fprintf(stdout, "%s %d %s %s %s %s\n","Lexeme", count, "is", lex, "and", id);

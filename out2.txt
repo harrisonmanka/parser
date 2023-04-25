@@ -1,0 +1,88 @@
+2 - @ < 2;
+Syntax is Ok
+Value is 0
+------------------------
+
+8-cat;
+ERROR -99999 not valid lexeme 
+------------------------
+
+cat-9;
+ERROR -99999 not valid lexeme 
+------------------------
+
+9+2;
+Syntax is Ok
+Value is 11
+------------------------
+
+3 ^ 2;
+Syntax is Ok
+Value is 9
+------------------------
+
+2 ^ 2 ^         3;
+Syntax is Ok
+Value is 256
+------------------------
+
+(2^2)^3;
+Syntax is Ok
+Value is 2
+------------------------
+
+2^(2^3);
+Syntax is Ok
+Value is 4
+------------------------
+
+6-7+8;
+Syntax is Ok
+Value is -1
+------------------------
+
+(6-7)+8;
+Syntax is Ok
+Value is 6
+------------------------
+
+6-(7+8);
+Syntax is Ok
+Value is -1
+------------------------
+
+1 + 2 < 9;
+Syntax is Ok
+Value is 1
+------------------------
+
+1 + 7 == 9 < 2;
+Syntax is Ok
+Value is 1
+------------------------
+
+9<2;
+Syntax is Ok
+Value is 0
+------------------------
+
+1== 0;
+Syntax is Ok
+Value is 0
+------------------------
+
+1 == 0
+Syntax is Ok
+Value is 0
+------------------------
+
+4 + 8 * 10 < 9;
+Syntax is Ok
+Value is 4
+------------------------
+
+8-9-(7*6;
+Syntax is Ok
+Value is -1
+------------------------
+
