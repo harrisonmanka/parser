@@ -1,220 +1,233 @@
 /**
- * tokenizer.c - A simple token recognizer.
+ * tokenizer.c - A simple token recognizer. 
  *
  * NOTE: The terms 'token' and 'lexeme' are used interchangeably in this
  *       program.
  *
- * @author Harrison Manka
- * @date 4/21/2023
+ * @author Harrison Manka & Matthew Agudelo
+ * 
  */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "tokenizer.h"
-#include "interpreter.h"
+#include "parser.h"
 
 // global variables
-//char *line;             // Global pointer to line of input
-// (optional) can declare some additional variable if you want to
-char *token_type = "";
-//char *grammar = "";
-extern char* line;
-int j;
-/**
-* add comment
-*/
-//int main(int argc, char* argv[]) {
-//    char  token[TSIZE];      /* Spot to hold a token, fixed size */
-//    char  input_line[LINE];  /* Line of input, fixed size        */
-//    FILE  *in_file = NULL;        /* File pointer                     */
-//    FILE  *out_file = NULL;
-//    int   line_count = 0;        /* Number of lines read             */
-//    //start,    /* is this the start of a new statement? */
-//    int count = 0;             /* count of tokens                  */
-//
-//    if (argc != 3) {
-//        printf("Usage: tokenizer inputFile outputFile\n");
-//        exit(1);
-//    }
-//
-//    in_file = fopen(argv[1], "r");
-//    if (in_file == NULL) {
-//        fprintf(stderr, "ERROR: could not open %s for reading\n", argv[1]);
-//        exit(1);
-//    }
-//
-//    out_file = fopen(argv[2], "w");
-//    if (out_file == NULL) {
-//        fprintf(stderr, "ERROR: could not open %s for writing\n", argv[2]);
-//        exit(1);
-//    }
-//    while (fgets(input_line, LINE, in_file) != NULL)
-//    {
-//        line = input_line;
-//        if(line_count == 0){
-//            line_count++;
-//            fprintf(out_file, "Statement #" "%d \n", line_count);
-//            line_count++;
-//        }
-//        while(line[j] != '\0'){
-//            get_token(token);
-//            get_token_type(token);
-//            //print_to_file(out_file, token, count);
-//            count++; //lexeme count
-//            memset(token, 0, sizeof(token));
-//            if(line[j] == '\n'){
-//                fprintf(out_file,"%s", "-----------------------------------------------\n");
-//                fprintf(out_file, "Statement #" "%d \n", line_count);
-//                count = 0;
-//                line_count++;
-//                line++;
-//            }
-//            else if(line[j] == '\t'){
-//                j++;
-//            }
-//            else if(line[j] == ';'){
-//                get_token(token);
-//                token_type = "SEMI_COLON";
-//                //print_to_file(out_file, token, count);
-//                fprintf(out_file,"%s", "-----------------------------------------------\n");
-//                fprintf(out_file, "Statement #" "%d \n", line_count);
-//                line_count++; //statement number
-//                count = 0; //token #
-//                memset(token, 0, sizeof(token));
-//            }
-//        }
-//        j = 0;
-//    }
-//    fclose(in_file);
-//    fclose(out_file);
-//    return 0;
-//}
+char *line;             // Global pointer to line of input
+char temp_tok[TSIZE];   //Global char array to hold tokens
+int count;              //Global counter for number of tokens
+
+
 
 /**
-* grab token
+* this function takes a line from the input file and parses it to 
+*determine if each token is valid according to the rules.
+*Parameter -> char *token_ptr: a line from the input file.
 */
-void get_token(char *token_ptr){
-    int i = 0;
-    while(line[j] == ' ' || line[j] == '\t'){
-        j++;
-    }
+//get-token doesn't return anything. move to next token
+char* get_token(char *token_ptr){
+  int j = 0;            //index variable for array of temporary tokens
+  temp_tok[0] = '\0';   //clear first index of array for temporary tokens
+  temp_tok[1] = '\0';   //clear second index of array for temporary tokens
 
-    //check current line pointer
-    if(isdigit(line[j])){
-        token_ptr[i] = line[j];
-        i++; j++;
-        //check for next number(s)
-        while(isdigit(line[j])){
-            token_ptr[i] = line[j];
-            i++; j++;
-        }
+  if (isdigit(*token_ptr)){
+    temp_tok[j] = *token_ptr;
+    j++;
+    token_ptr++;
+
+    while(isdigit(*token_ptr)){
+      temp_tok[j] = *token_ptr;
+      j++;
+      token_ptr++;
     }
-    else if (((line[j] == '<')&&(line[j+1] == '=')) || ((line[j] == '>')&&(line[j+1] == '='))
-            || ((line[j] == '!')&&(line[j+1] == '=')) || ((line[j] == '=')&&(line[j+1] == '='))) {
-        token_ptr[i] = line[j];
-        token_ptr[i+1] = line[j+1];
-        j++;
+  }
+
+  else if (*token_ptr == '='){
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+    j++;
+    if(*token_ptr == '='){
+      temp_tok[j] = *token_ptr;
+      token_ptr++;
     }
-    else if ((line[j] == '*') || (line[j] == ';') || (line[j] == '(') ||
-             (line[j] == ')') || (line[j] == '+') || (line[j] == '-') ||
-             (line[j] == '^') || (line[j] == '/') || (line[j] == ';')){
-        token_ptr[i] = line[j];
-        j++;
+  }
+
+  else if (*token_ptr == '!'){
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+    j++;
+    if(*token_ptr == '='){
+      temp_tok[j] = *token_ptr;
+      token_ptr++;
     }
-    else{
-        token_ptr[i] = line[j];
-        j++;
+  }
+
+  else if(*token_ptr == '<'){
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+    j++;
+    if(*token_ptr == '='){
+      temp_tok[j] = *token_ptr;
+      token_ptr++;
     }
+  }
+
+  else if(*token_ptr == '>'){
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+    j++;
+    if(*token_ptr == '='){
+      temp_tok[j] = *token_ptr;
+      token_ptr++;
+    }
+  }
+
+  else if(isspace(*token_ptr)){
+    token_ptr++;
+    get_token(token_ptr);
+  }
+
+  //check if the token is a null character then do nothing
+  else if(*token_ptr == '\0'){
+    //do nothing
+
+  }
+
+  else if(*token_ptr == ';'){
+    temp_tok[j] = *token_ptr;
+  }
+
+  else if(*token_ptr == '+'){
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+  }
+
+  else if(*token_ptr == '-'){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+  }
+
+  else if(*token_ptr == '/'){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+  }
+
+  else if(*token_ptr == '('){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+  }
+
+  else if(*token_ptr == ')'){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+  }
+
+  else if(*token_ptr == '^'){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+  }
+
+  else if(*token_ptr == '*'){
+  temp_tok[j] = *token_ptr;
+  token_ptr++;
+
+  }
+  else{
+    temp_tok[j] = *token_ptr;
+    token_ptr++;
+    get_token(token_ptr);
+  }
+  return token_ptr;
+
+}
+
+/*
+*This function takes a char array of lexemes and prints them out
+*and also increases the token counter
+ */
+void print_lex(char *lex){
+  char* id;
+  id = id_Expr(lex);
+  fprintf(stdout, "%s %d %s %s %s %s\n","Lexeme", count, "is", lex, "and", id);
+  count++;      //increas the token counter
 }
 /**
- *
- * @param out_file
- * @param token_arr
- * @param token_type
+ * Assigns a idenitfier to the lexeme passed 
+ * 
+ * @param lex the lexeme that is being used to assign identifier
+ * @return char* the identifier of the lexeme passed
  */
-//void print_to_file(FILE* out_file, char* token_arr, int count){
-//    if(!(strcmp(token_type, "ERROR"))) {
-//        fprintf(out_file, "===> '%s'\nLexical error: not a lexeme\n", token_arr);
-//    }
-//    else{
-//        fprintf(out_file, "Lexeme " "%d" " is " "%s" " and is a " "%s\n", count, token_arr, grammar, token_type);
-//    }
-//}
+char *id_Expr(char *lex){
+  char* val[10]; 
+  if(*lex == ';'){
+    *val = "SEMI_COLON";
+  }
+  else if(*lex == '+'){
+    *val = "PLUS";
+  }
+  else if(*lex == '-'){
+    *val = "MINUS";
+  }
+  else if(*lex == '*'){
+    *val = "MULTI_OP";
+  }
+  else if(*lex == '/'){
+    *val = "DIV_OP";
+   }
+  else if(*lex == '('){
+    *val = "LEFT_PAREN";
+    }
+  else if(*lex == ')'){
+    *val = "RIGHT_PAREN";
+     }
+  else if(*lex == '^'){
+    *val = "EXPON";
+  }
 
-/**
- * get token type
- */
-void get_token_type(char* token){
-    if(strcmp(token, ADD_OP) == 0) {
-        token_type = "ADD_OP";
-        //grammar = "an";
-    }
-    else if (strcmp(token, SUB_OP) == 0) {
-        token_type = "SUB_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, MULT_OP) == 0) {
-        token_type = "MULT_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, DIV_OP) == 0) {
-        token_type = "DIV_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, LEFT_PAREN) == 0) {
-        token_type = "LEFT_PAREN";
-        //grammar = "a";
-    }
-    else if (strcmp(token, RIGHT_PAREN) == 0){
-        token_type = "RIGHT_PAREN";
-        //grammar = "a";
-    }
-    else if (strcmp(token, EXPON_OP) == 0) {
-        token_type = "EXPON_OP";
-        //grammar = "an";
-    }
-    else if (strcmp(token, ASSIGN_OP) == 0) {
-        token_type = "ASSIGN_OP";
-        //grammar = "an";
-    }
-    else if (strcmp(token, LESS_THEN_OP) == 0) {
-        token_type = "LESS_THEN_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, LESS_THEN_OR_EQUAL_OP) == 0) {
-        token_type = "LESS_THEN_OR_EQUAL_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, GREATER_THEN_OP) == 0) {
-        token_type = "GREATER_THEN_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, GREATER_THEN_OR_EQUAL_OP) == 0) {
-        token_type = "GREATER_THEN_OR_EQUAL_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, EQUALS_OP) == 0) {
-        token_type = "EQUALS_OP";
-        //grammar = "an";
-    }
-    else if (strcmp(token, NOT_OP) == 0) {
-        token_type = "NOT_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, NOT_EQUAL_OP) == 0) {
-        token_type = "NOT_EQUAL_OP";
-        //grammar = "a";
-    }
-    else if (strcmp(token, SEMI_COLON) == 0) {
-        token_type = "SEMI_COLON";
-        //grammar = "a";
-    }
-    else if (isdigit(token[0])){
-        token_type = "INT_LITERAL"; //grammar = "an";
-    }
-    else {
-        token_type = "ERROR";
-    }
+  else if(*lex == '='){
+    lex++;
+     if(*lex == '='){
+        *val = "EQUAL_OP";
+       }
+      else{
+         *val = "ASSIGN";
+       }
+       
+       
+  }
+   else if(*lex == '<'){
+     lex++;
+     if(*lex == '='){
+       *val = "LESS_THAN_EQ";
+     }
+     else{
+         *val = "LESS_THAN";
+       }
+    
+  } 
+
+   else if(*lex == '>'){
+     lex++;
+       if(strlen(lex) == '='){
+       *val = "GREATER_THAN_EQ";
+       }
+       else{
+         *val = "GREATER_THAN_EQ";
+       }
+  }
+   else if(*lex == '!'){
+     lex++;
+       if(strlen(lex) == '='){
+       *val = "NOT_EQ";
+       }
+       else{
+         *val = "NOT_EQ_OP";
+       }
+  }
+   else if(isdigit(*lex)){
+    *val = "INT_LITERAL";
+  }
+  return *val;
 }
