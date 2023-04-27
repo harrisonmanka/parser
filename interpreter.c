@@ -9,11 +9,10 @@
 
 /** global line pointer to input */
 char* line;
-/** array for holding error 'tokens' */
-//char* error;
+
+/** global index to the line of input */
 extern int j;
 
-char* error_tok;
 
 int main(int argc, char* argv[]){
     FILE* in_file = NULL;
@@ -37,17 +36,19 @@ int main(int argc, char* argv[]){
 
     while (fgets(input_line, LINE, in_file) != NULL){
         line = input_line;
-        get_token(token);
-        result = bexpr(token);
-        fprintf(out_file, "%s", line);
-        if(result == L_ERROR){
-            fprintf(out_file, "===> ''\nLexical Error: not a lexeme\n"); //make char* erorr
-        }
-        else if(result == S_ERROR){
-            fprintf(out_file, "===> '' expected\nSyntax Error\n");
-        }
-        else{
-            fprintf(out_file, "Syntax OK\n Value is %d", result);
+        if((strcmp(line, "\n"))){
+            get_token(token);
+            result = bexpr(token);
+            fprintf(out_file, "%s", line);
+            if(result == L_ERROR){
+                fprintf(out_file, "===> '%s'\nLexical Error: not a lexeme\n\n", token);
+            }
+            else if(result == S_ERROR){
+                fprintf(out_file, "===> '%s' expected\nSyntax Error\n\n", token);
+            }
+            else{
+                fprintf(out_file, "Syntax OK\nValue is %d\n\n", result);
+            }
         }
         j = 0;
     }
