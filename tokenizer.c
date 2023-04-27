@@ -111,6 +111,15 @@ void get_token(char *token_ptr){
             i++; j++;
         }
     }
+    else if(isalpha(line[j])){
+        token_ptr[i] = line[j];
+        i++; j++;
+        //check for next number(s)
+        while(isalpha(line[j])){
+            token_ptr[i] = line[j];
+            i++; j++;
+        }
+    }
     else if (((line[j] == '<')&&(line[j+1] == '=')) || ((line[j] == '>')&&(line[j+1] == '='))
             || ((line[j] == '!')&&(line[j+1] == '=')) || ((line[j] == '=')&&(line[j+1] == '='))) {
         token_ptr[i] = line[j];

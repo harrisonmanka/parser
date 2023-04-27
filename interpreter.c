@@ -13,12 +13,15 @@ char* line;
 //char* error;
 extern int j;
 
+char* error_tok;
+
 int main(int argc, char* argv[]){
     FILE* in_file = NULL;
     FILE* out_file = NULL;
     char  token[TSIZE];
     char  input_line[LINE];
     int result = 0;
+    j = 0;
 
     in_file = fopen(argv[1], "r");
     if (in_file == NULL) {
@@ -34,10 +37,8 @@ int main(int argc, char* argv[]){
 
     while (fgets(input_line, LINE, in_file) != NULL){
         line = input_line;
-        j=0;
         get_token(token);
         result = bexpr(token);
-        j=0;
         fprintf(out_file, "%s", line);
         if(result == L_ERROR){
             fprintf(out_file, "===> ''\nLexical Error: not a lexeme\n"); //make char* erorr
@@ -48,5 +49,6 @@ int main(int argc, char* argv[]){
         else{
             fprintf(out_file, "Syntax OK\n Value is %d", result);
         }
+        j = 0;
     }
 }
