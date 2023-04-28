@@ -1,3 +1,9 @@
+/**
+ * Header file representing all needs libraries,
+ * constants, as well as our function headers.
+ * @author Harrison Manka
+ * @date 04/27/23
+ */
 #ifndef PARSER_H
 #include <string.h>
 #include <ctype.h>

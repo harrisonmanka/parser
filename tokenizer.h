@@ -1,7 +1,7 @@
 /**
  * Header file for the tokenizer project
- * @author Harrison Manka & Matthew Agudelo
- * @date 4/21/2023
+ * @author Harrison Manka
+ * @date 4/27/2023
  */
 
 /* Constants */

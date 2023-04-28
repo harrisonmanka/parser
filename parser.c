@@ -99,8 +99,6 @@ int ttail(char *token, int subtotal)
    if (!strncmp(token, "+", 1)){
       add_sub_tok(token);
       term_value = term(token);
-
-      // if term returned an error, give up otherwise call ttail
       if (term_value == L_ERROR || subtotal == S_ERROR) {
           return term_value;
       }
@@ -111,8 +109,6 @@ int ttail(char *token, int subtotal)
    else if(!strncmp(token, "-", 1)){
       add_sub_tok(token);
       term_value = term(token);
-
-      // if term returned an error, give up otherwise call ttail
       if (term_value == L_ERROR || subtotal == S_ERROR) {
           return term_value;
       }
@@ -120,7 +116,6 @@ int ttail(char *token, int subtotal)
           return ttail(token, (subtotal - term_value));
       }
    }
-   /* empty string */
    else{
        return subtotal;
    }
@@ -172,8 +167,6 @@ int stail(char* token, int subtotal){
     if (!strncmp(token, "*", 1)){
         mul_div_tok(token);
         term_value = stmt(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || subtotal == S_ERROR)
             return term_value;
         else
@@ -182,8 +175,6 @@ int stail(char* token, int subtotal){
     else if(!strncmp(token, "/", 1)){
         mul_div_tok(token);
         term_value = stmt(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || subtotal == S_ERROR) {
             return term_value;
         }
@@ -191,7 +182,6 @@ int stail(char* token, int subtotal){
             return stail(token, (subtotal / term_value));
         }
     }
-        /* empty string */
     else {
         return subtotal;
     }
@@ -208,9 +198,7 @@ int stail(char* token, int subtotal){
  */
 int factor(char* token){
     int subtotal, term_value, term_value2;
-
     term_value = expp(token);
-
     if (!strncmp(token, "^", 1)){
         expon_tok(token);
         term_value2 = factor(token);
@@ -243,67 +231,49 @@ int factor(char* token){
 int ftail(char* token, int subtotal){
     int term_value;
 
-    if (!strncmp(token, "<", 1))
-    {
+    if (!strncmp(token, "<", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal < term_value));
     }
-    else if(!strncmp(token, ">", 1))
-    {
+    else if(!strncmp(token, ">", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal > term_value));
     }
-    else if (!strncmp(token, "<=", 1))
-    {
+    else if (!strncmp(token, "<=", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal <= term_value));
     }
-    else if(!strncmp(token, ">=", 1))
-    {
+    else if(!strncmp(token, ">=", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal >= term_value));
     }
-    if (!strncmp(token, "!=", 1))
-    {
+    else if (!strncmp(token, "!=", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
             return ftail(token, (subtotal != term_value));
     }
-    else if(!strncmp(token, "==", 1))
-    {
+    else if(!strncmp(token, "==", 1)){
         compare_tok(token);
         term_value = factor(token);
-
-        // if term returned an error, give up otherwise call ttail
         if (term_value == L_ERROR || term_value == S_ERROR)
             return term_value;
         else
@@ -323,12 +293,10 @@ int ftail(char* token, int subtotal){
  * @return the number of the evaluated expression or an error
  */
 int expp(char* token){
-
     if (!strncmp(token, "(", 1)){
         get_token(token);
         int term_value = expr(token);
 
-        // if term returned an error, give up otherwise call ttail
         if (!strncmp(token, ")", 1)) {
             get_token(token);
             return term_value;
@@ -339,7 +307,6 @@ int expp(char* token){
             return S_ERROR;
         }
     }
-        /* empty string */
     else {
         return num(token);
     }

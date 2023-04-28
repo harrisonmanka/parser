@@ -1,3 +1,9 @@
+/**
+ * interpreter.c - driver for our parser where we
+ * take input and spit out the output of the parsing.
+ * @author Harrison Manka
+ * @date 04/27/23
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,7 +19,16 @@ char* line;
 /** global index to the line of input */
 extern int j;
 
-
+/**
+ * Main method that creates two file objects, in and out.
+ * Creates a token array to hold one token at a time, and
+ * an input_line that is the line of input from fgets.
+ * While the file is not equal to null, we grab each line
+ * and call get_token then recursively parse our sentence.
+ * @param argc
+ * @param argv
+ * @return 0
+ */
 int main(int argc, char* argv[]){
     FILE* in_file = NULL;
     FILE* out_file = NULL;

@@ -5,7 +5,7 @@
  *       program.
  *
  * @author Harrison Manka
- * @date 4/23/2023
+ * @date 4/27/2023
  */
 
 #include <stdio.h>
@@ -15,6 +15,7 @@
 #include "tokenizer.h"
 #include "interpreter.h"
 
+/** global line pointer to line of input */
 extern char* line;
 
 /** global index in line of input */
@@ -31,12 +32,9 @@ void get_token(char *token_ptr){
     while(isspace(line[j])){
         j++;
     }
-
-    //check current line pointer
     if(isdigit(line[j])){
         token_ptr[i] = line[j];
         i++; j++;
-        //check for next number(s)
         while(isdigit(line[j])){
             token_ptr[i] = line[j];
             i++; j++;
@@ -59,7 +57,6 @@ void get_token(char *token_ptr){
         i++; j++;
         token_ptr[i] = line[j];
         j++; i++;
-
         token_ptr[i] = '\0';
     }
     else if ((line[j] == '*') || (line[j] == ';') || (line[j] == '(') ||
